@@ -258,7 +258,7 @@ function initSmoothScroll() {
    ============================================================ */
 function initScrollAnimations() {
   const targets = document.querySelectorAll(
-    '.project-card, .about-grid, .contact-wrapper, .section-title, .exp-card, .achievement-badge'
+    '.project-card, .about-grid, .contact-wrapper, .section-title, .exp-card, .achievement-badge, .skills-category'
   );
 
   targets.forEach(el => el.classList.add('fade-in'));
@@ -645,6 +645,64 @@ function initLoginSimulation() {
           (Script is loaded with defer, so DOMContentLoaded
            fires immediately after defer scripts execute.)
    ============================================================ */
+/* ============================================================
+   INNOVATION 1: SCROLL PROGRESS BAR
+   Updates the width of the fixed bar at the top of the page
+   as the user scrolls — gives a clear sense of reading progress.
+   ============================================================ */
+function initScrollProgressBar() {
+  const bar = document.getElementById('scrollProgressBar');
+  if (!bar) return;
+
+  window.addEventListener('scroll', () => {
+    const scrollTop    = window.scrollY;
+    const docHeight    = document.documentElement.scrollHeight - window.innerHeight;
+    const progress     = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+    bar.style.width    = progress + '%';
+  }, { passive: true });
+}
+
+/* ============================================================
+   INNOVATION 2: ANIMATED SKILL BARS
+   Uses IntersectionObserver to trigger a smooth fill animation
+   only when the skills section enters the viewport.
+   ============================================================ */
+function initSkillBars() {
+  const fills = document.querySelectorAll('.skill-bar-fill');
+  if (!fills.length) return;
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const fill      = entry.target;
+        const targetW   = fill.dataset.width || '0';
+        fill.style.width = targetW + '%';
+        observer.unobserve(fill);   // Animate once, then stop watching
+      }
+    });
+  }, { threshold: 0.3 });
+
+  fills.forEach(fill => observer.observe(fill));
+}
+
+/* ============================================================
+   INNOVATION 3: BACK TO TOP BUTTON
+   Appears after the user scrolls 400px and smoothly scrolls
+   back to the top of the page when clicked.
+   ============================================================ */
+function initBackToTop() {
+  const btn = document.getElementById('backToTop');
+  if (!btn) return;
+
+  window.addEventListener('scroll', () => {
+    btn.hidden = window.scrollY < 400;
+  }, { passive: true });
+
+  btn.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
 
   /* ── Core features (carried over from Assignment 2) ── */
@@ -665,6 +723,11 @@ document.addEventListener('DOMContentLoaded', () => {
   initLoginSimulation();       // Login / logout state management
   initQuoteWidget();           // Inspirational quotes API
   initGitHubRepos();           // GitHub repos API (lazy-loaded)
+
+  /* ── Innovation features added in Assignment 4 ── */
+  initScrollProgressBar();     // Reading progress bar at top of page
+  initSkillBars();             // Animated skill bars on scroll
+  initBackToTop();             // Back-to-top floating button
 
   console.log('%c Mohammed Alroomi | Portfolio', 'color: #00d4aa; font-size: 14px; font-weight: bold;');
   console.log('%c Assignment 4 – Final Portfolio | SWE 363 | KFUPM', 'color: #9090a0;');
