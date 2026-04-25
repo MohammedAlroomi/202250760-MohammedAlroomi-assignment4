@@ -1,82 +1,113 @@
 # AI Usage Report
 
-**Course:** SWE 363 – Web Application Development
-**Student:** Mohammed Alroomi — 202250760
-**Assignment:** Assignment 4 – Personal Portfolio Web Application
+**Course:** SWE 363 – Web Application Development  
+**Student:** Mohammed Alroomi — 202250760  
+**Assignment:** Assignment 4 – Personal Portfolio Web Application  
 
 ---
 
 ## 1. Tools Used & Use Cases
 
-### Claude (Anthropic)
-**Primary tool used throughout all four assignments.**
+Three AI tools were used during this assignment, each serving a distinct and deliberate role in the development workflow.
 
-| Use Case | Description |
-|---|---|
-| Code Generation | Generated initial HTML structure, CSS layout patterns, and JavaScript feature functions (theme toggle, project filter, GitHub API integration, quote widget, login simulation) |
-| Code Review & Debugging | Reviewed existing code for bugs, unused variables, and broken logic — particularly the filter state management and API fallback chain |
-| Architecture Decisions | Suggested the single `projectState` object pattern for unified filter control, and the `IntersectionObserver` approach for lazy-loading the GitHub section |
-| Innovation Features | Proposed and implemented the scroll progress bar, animated skill bars, and back-to-top button added in Assignment 4 |
-| Documentation Support | Assisted in drafting README.md, this AI usage report, and technical-documentation.md |
-| Performance Optimization | Identified opportunities to compress images, add `defer` to scripts, use `requestAnimationFrame` for scroll throttling, and add `loading="lazy"` to images |
+---
 
-### GitHub Copilot
-| Use Case | Description |
-|---|---|
-| Inline Completion | Provided autocomplete suggestions while writing repetitive CSS rules (e.g., hover states, media queries) and JavaScript event listener patterns |
-| Boilerplate Reduction | Suggested common patterns like `document.addEventListener('DOMContentLoaded', ...)` wrappers and `try/catch` blocks for API calls |
+### 🤖 Claude (Anthropic) — Primary Development Assistant
 
-### ChatGPT (OpenAI)
-| Use Case | Description |
-|---|---|
-| Concept Clarification | Used to understand how `IntersectionObserver` thresholds work and how `sessionStorage` differs from `localStorage` |
-| API Response Structure | Helped decode the GitHub REST API and Quotable API JSON response shapes before writing the parsing logic |
-| Alternative Approaches | Consulted for alternative ways to handle CSS theming (CSS variables vs. class swapping) before deciding on custom properties |
+Claude was the main AI tool used throughout all four assignments for hands-on development work.
+
+| # | Use Case | Specific Example |
+|---|---|---|
+| 1 | **Code Generation** | Generated the full HTML semantic structure for the portfolio, including all sections (Hero, About, Skills, Projects, Experience, GitHub, Contact) with accessibility attributes like `aria-label` and `role` |
+| 2 | **Feature Implementation** | Implemented the project filter system using a unified `projectState` object that manages category, skill level, and sort simultaneously — preventing filter conflicts |
+| 3 | **Innovation Features** | Proposed and built 3 original features for Assignment 4: scroll progress bar (reading progress indicator), animated skill bars triggered by `IntersectionObserver`, and a scroll-aware back-to-top button |
+| 4 | **Debugging** | Identified a critical bug where multiple scroll event listeners were being attached on every theme toggle — resolved by moving the listener outside the toggle function |
+| 5 | **Performance Review** | Flagged unoptimized assets (Project1.webp at 167KB), suggested `loading="lazy"` on images, `defer` on scripts, `requestAnimationFrame` throttling for scroll events, and DNS prefetch for external APIs |
+| 6 | **Code Review** | Reviewed JavaScript for missing null checks — caught 4 cases where `getElementById` would silently fail if an element wasn't present, causing uncaught runtime errors |
+| 7 | **API Integration** | Built the GitHub Repos API integration with `IntersectionObserver`-based lazy loading, and the Quotable API quote widget with a two-tier fallback chain (Quotable → AdviceSlip → static message) |
+| 8 | **Documentation** | Assisted in drafting the README, this AI usage report, and the technical documentation |
+
+**How outputs were reviewed and modified:**  
+Every suggestion from Claude was read line-by-line. Generic patterns were adapted — for example, a basic theme toggle was extended to persist state in `localStorage`, animate the toggle icon, and update ARIA attributes for accessibility. No Claude output was submitted unmodified.
+
+---
+
+### 💬 ChatGPT (OpenAI) — Concept Understanding
+
+ChatGPT was used specifically to understand *why* certain approaches work, not to generate production code.
+
+| # | Use Case | Specific Example |
+|---|---|---|
+| 1 | **Concept Explanation** | Used to understand the difference between `sessionStorage` and `localStorage` — specifically, which one clears on tab close and why that made `sessionStorage` the right choice for the login simulation |
+| 2 | **API Structure** | Explained the GitHub REST API v3 response shape for `/users/:username/repos`, clarifying which fields (`name`, `description`, `html_url`, `language`, `stargazers_count`) were safe to access without optional chaining |
+| 3 | **CSS Concepts** | Clarified how CSS `clamp()` works for fluid typography and why it's preferable to multiple breakpoints for font sizing alone |
+| 4 | **IntersectionObserver** | Explained what the `threshold` option means — specifically that `0.3` means 30% of the element must be visible before the callback fires — helping fine-tune the skill bar animation timing |
+
+**How outputs were reviewed and modified:**  
+ChatGPT explanations were validated against MDN documentation before applying them. In one case, ChatGPT suggested a Quotable API endpoint that had changed — this was caught by testing manually and corrected before use.
+
+---
+
+### ⌨️ GitHub Copilot — Inline Code Completion
+
+GitHub Copilot was used directly inside the code editor for real-time suggestions during active coding sessions.
+
+| # | Use Case | Specific Example |
+|---|---|---|
+| 1 | **Repetitive CSS Patterns** | Autocompleted hover state rules, focus styles, and `@media` query blocks that follow consistent patterns across the stylesheet |
+| 2 | **Event Listener Boilerplate** | Suggested `addEventListener` patterns with correct passive options (`{ passive: true }`) for scroll handlers, improving performance |
+| 3 | **JavaScript Utility Functions** | Completed helper patterns such as debounce-style guards and `classList.toggle` chains when context made the intent clear |
+| 4 | **Consistent Naming** | Helped maintain consistent variable naming by predicting names that matched existing conventions in the file (e.g., continuing `initTheme`, `initNavbar` naming for new `initSkillBars`, `initBackToTop`) |
+
+**How outputs were reviewed and modified:**  
+Copilot suggestions were accepted selectively — only when they matched exactly what was intended. Suggestions that added unnecessary complexity or deviated from the project's vanilla JS approach were rejected.
 
 ---
 
 ## 2. Benefits & Challenges
 
-### Benefits
+### ✅ Benefits
 
-- **Speed:** Claude significantly reduced the time spent on boilerplate HTML and repetitive CSS, allowing more focus on logic and design decisions.
-- **Quality:** Code review suggestions from Claude caught several issues — including missing `null` checks on `getElementById` calls and an unthrottled scroll event listener that would have hurt performance.
-- **Learning acceleration:** Having an AI explain *why* a pattern is better (e.g., why `requestAnimationFrame` is preferred over raw `scroll` listeners) deepened understanding rather than just providing an answer.
-- **Documentation:** Drafting structured markdown documentation was much faster with AI assistance, freeing time for actual development.
+- **Development speed:** Claude reduced time spent on boilerplate significantly, allowing more focus on logic, UX decisions, and feature design.
+- **Higher code quality:** AI-assisted code review surfaced real bugs (missing null checks, unthrottled scroll listeners, oversized images) that manual review might have missed.
+- **Deeper understanding:** Using ChatGPT to understand concepts — rather than just copy solutions — meant that every feature implemented is one that can be explained and defended.
+- **Consistent style:** GitHub Copilot helped maintain consistent naming conventions and code patterns across a growing codebase without constant manual reference.
 
-### Challenges
+### ⚠️ Challenges
 
-- **Over-generation:** Claude sometimes generated more code than needed, requiring careful trimming to avoid adding unnecessary complexity.
-- **Hallucinated APIs:** ChatGPT once suggested a Quotable API endpoint that had been deprecated — requiring manual verification against the actual API documentation.
-- **Context loss:** In long conversations, AI tools occasionally forgot earlier decisions (e.g., that the project uses vanilla JS, not React) and had to be corrected.
-- **Blind trust risk:** Early in the project there was a temptation to accept AI code without fully reading it. This was corrected by establishing a habit of reviewing every suggestion line-by-line before applying it.
+- **Over-generation:** Claude occasionally generated more than needed — for example, suggesting a full React component when a small vanilla JS function was sufficient. Required deliberate trimming.
+- **Outdated information:** ChatGPT once referenced a deprecated API endpoint. This reinforced the habit of always manually testing API calls before trusting AI-sourced documentation.
+- **Context loss in long sessions:** Claude lost track of earlier architectural decisions in long conversations (e.g., forgetting the project is vanilla JS). Resolved by re-stating constraints at the start of each new session.
+- **Copilot false confidence:** Copilot sometimes autocompleted incorrect logic that *looked* right syntactically but was semantically wrong. Each suggestion required conscious evaluation, not just Tab-acceptance.
 
 ---
 
 ## 3. Learning Outcomes
 
-- **CSS Custom Properties:** Learned how to build a complete design system using CSS variables, making theme switching a one-variable change rather than hunting for hardcoded colors across the stylesheet.
-- **State Management without frameworks:** Gained a clear understanding of managing UI state using plain JavaScript objects, without relying on React or other libraries.
-- **API Integration patterns:** Learned the importance of fallback chains — primary API → secondary API → static fallback — for resilient UI components that never break silently.
-- **Performance fundamentals:** Understood practical performance techniques including `IntersectionObserver` for lazy loading, `requestAnimationFrame` for scroll events, `defer` for scripts, and image compression.
-- **AI as a workflow tool:** Learned to treat AI as a thought partner and code reviewer, not a vending machine. The best results came from describing the problem clearly, evaluating the proposed solution critically, modifying it for the specific context, and understanding why it works — never just copy-pasting.
+| Skill | What Was Learned |
+|---|---|
+| **CSS Design Systems** | How to use CSS custom properties to build a full design token system — one variable controls color everywhere, making dark/light mode a two-line change |
+| **JavaScript State Management** | How to manage complex UI state (multi-dimensional filters) using a single plain JS object, without frameworks — a pattern directly transferable to React's `useState` |
+| **API Resilience** | How to design API integrations that degrade gracefully — primary → fallback → static message — so no section ever appears broken to the user |
+| **Performance Engineering** | Practical understanding of `IntersectionObserver`, `requestAnimationFrame`, `defer`, `loading="lazy"`, and image compression as a toolkit, not just buzzwords |
+| **AI-Assisted Workflow** | The most valuable lesson: AI is most useful as a *reviewer and thought partner*, not a generator. The quality of output improves dramatically when you describe the problem clearly, evaluate the solution critically, and modify it for context — rather than accepting it blindly |
 
 ---
 
 ## 4. Responsible Use & Modifications
 
-All AI-generated suggestions were treated as a starting point, not a final answer. The following practices were applied throughout:
+The following practices were maintained throughout the entire assignment to ensure academic integrity:
 
-1. **Line-by-line review:** Every block of AI-generated code was read in full before being added to the project, and comments were added to explain what it does and why.
+1. **Read before use:** Every AI-generated code block was read line-by-line and understood before being added to the project. Blocks that were not fully understood were not used.
 
-2. **Modification before use:** Generic AI suggestions were adapted to fit the specific project context. For example, a generic theme-toggle snippet was modified to persist the user's preference in `localStorage` and update the toggle button icon dynamically.
+2. **Always modify:** No AI output was submitted unchanged. Every suggestion was adapted to fit the project's specific context, naming conventions, and design decisions.
 
-3. **Manual testing:** Each feature was tested in the browser after implementation — not assumed to work because the AI said it would.
+3. **Validate independently:** API suggestions from AI tools were verified against official documentation (GitHub API docs, MDN). Behavioral claims were verified by testing in the browser.
 
-4. **No unmodified submission:** No AI output was submitted as-is. Every file in this repository reflects decisions made and understood by the student, with AI serving as an accelerator, not a replacement for learning.
+4. **Comment the why:** All non-obvious code in the project includes comments explaining *why* the approach was chosen — evidence that the logic is understood, not just copied.
 
-5. **Transparency:** This report documents all AI tools used, the specific tasks they assisted with, and the limitations encountered — in full compliance with the SWE 363 academic integrity policy.
+5. **AI accelerates, not replaces:** Every feature in this portfolio — its logic, design, and integration — is something that can be fully explained and reproduced. AI helped build it faster; it did not build it instead.
 
 ---
 
-*This report was written by Mohammed Alroomi as part of Assignment 4 for SWE 363 at KFUPM.*
+*Mohammed Alroomi — 202250760 — SWE 363, KFUPM — Assignment 4, 2026*
