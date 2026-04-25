@@ -12,5 +12,3 @@ node_modules/
 # Logs
 *.log
 
-# Demo video (too large for GitHub — hosted externally)
-presentation/demo-video.mp4
