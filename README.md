@@ -16,3 +16,7 @@ A complete and polished personal portfolio web application showcasing skills dev
 
 ## Live Deployment
 > Coming soon – will be deployed via GitHub Pages / Netlify / Vercel.
+
+## 🎬 Demo Video
+> The demo video exceeds GitHub's 100MB limit and is hosted externally.
+> 📎 **[Click here to watch the demo video](#)** ← Replace `#` with your YouTube/Google Drive link
