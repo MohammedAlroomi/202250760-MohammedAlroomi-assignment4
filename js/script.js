@@ -50,6 +50,8 @@ function setGreeting(name) {
    2. PERSONALISED GREETING INPUT
       Saves name to localStorage so it persists across page loads.
    ============================================================ */
+/* Reads the visitor's saved name from localStorage, populates the input
+   field, updates the greeting text, and watches for live changes. */
 function initPersonalisedGreeting() {
   const input    = document.getElementById('visitorName');
   const clearBtn = document.getElementById('greetingClear');
@@ -81,6 +83,8 @@ function initPersonalisedGreeting() {
    3. DARK / LIGHT THEME TOGGLE
       Preference saved to localStorage.
    ============================================================ */
+/* Initialises the dark/light theme by reading the saved preference from
+   localStorage and attaching the toggle button click handler. */
 function initTheme() {
   const toggle    = document.getElementById('themeToggle');
   const themeIcon = toggle?.querySelector('.theme-icon');
@@ -93,6 +97,8 @@ function initTheme() {
     applyTheme(isDark ? 'light' : 'dark');
   });
 
+  /* Applies the given theme ('dark' or 'light') to the document and
+     updates the toggle button icon accordingly. */
   function applyTheme(theme) {
     document.body.classList.remove('dark-theme', 'light-theme');
     document.body.classList.add(theme + '-theme');
@@ -118,6 +124,8 @@ const projectState = {
  *   2. Re-orders visible cards inside the grid based on sort value
  *   3. Toggles the empty-state message
  */
+/* Reads the current projectState (category, skill, sort) and re-renders
+   the project grid, showing only cards that match all active filters. */
 function applyProjectState() {
   const cards      = Array.from(document.querySelectorAll('.project-card'));
   const grid       = document.getElementById('projectsGrid');
@@ -188,6 +196,8 @@ function initProjectSort() {
    Works simultaneously with the category filter — a card is visible
    only if it matches BOTH the active category AND the active skill level.
    ────────────────────────────────────────────────────────────────────── */
+/* Sets up the skill-level filter dropdown and wires its change event
+   to update projectState and re-apply the project filter. */
 function initSkillFilter() {
   const skillBtns = document.querySelectorAll('.skill-btn');
   if (!skillBtns.length) return;
@@ -206,6 +216,8 @@ function initSkillFilter() {
    5. NAVBAR SCROLL BEHAVIOUR
       Throttled with requestAnimationFrame for performance.
    ============================================================ */
+/* Adds a 'scrolled' class to the navbar when the page scrolls past 50px,
+   triggering the compact/sticky navbar styles. */
 function initNavbar() {
   const navbar = document.getElementById('navbar');
   if (!navbar) return;
@@ -282,6 +294,8 @@ function initScrollAnimations() {
    9. CONTACT FORM VALIDATION
       Multi-step checks: required → format → length
    ============================================================ */
+/* Attaches a submit handler to the contact form. Validates all fields,
+   shows inline error messages, and displays a success banner on pass. */
 function initContactForm() {
   const form       = document.getElementById('contactForm');
   const nameInput  = document.getElementById('name');
@@ -296,6 +310,8 @@ function initContactForm() {
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+  /* Validates name (non-empty), email (regex), and message (min 10 chars).
+     Returns true only if all three pass; otherwise shows error messages. */
   function validate() {
     let valid = true;
 
@@ -404,6 +420,8 @@ async function fetchQuote() {
   }
 }
 
+/* Fetches an inspirational quote from the Quotable API. Falls back to
+   AdviceSlip if the primary call fails, then shows a static message. */
 function initQuoteWidget() {
   const refreshBtn = document.getElementById('quoteRefresh');
   fetchQuote();  // Load on page open
@@ -533,6 +551,8 @@ async function fetchGitHubRepos() {
  * this avoids an unnecessary network request for visitors who
  * don't scroll that far (a small but meaningful perf win).
  */
+/* Uses IntersectionObserver to lazy-load the GitHub repos section.
+   Fetches public repos from the GitHub REST API and renders repo cards. */
 function initGitHubRepos() {
   const section = document.getElementById('github');
   if (!section) return;
@@ -556,6 +576,8 @@ function initGitHubRepos() {
        elapsed time (0s → 59s → 1m 00s → …).
        Demonstrates a timer/counter as required by the brief.
    ============================================================ */
+/* Starts a real-time counter that shows how long the visitor has been
+   on the page. Updates every second using requestAnimationFrame. */
 function initSiteTimer() {
   const display = document.getElementById('timerDisplay');
   if (!display) return;
@@ -587,6 +609,8 @@ function initSiteTimer() {
        On logout:
          • All of the above is reversed
    ============================================================ */
+/* Simulates a login/logout flow using sessionStorage. Persists the
+   visitor's name across the session and shows a personalised welcome bar. */
 function initLoginSimulation() {
   const loginBtn     = document.getElementById('loginBtn');
   const loginLabel   = document.getElementById('loginLabel');
@@ -629,6 +653,8 @@ function initLoginSimulation() {
     if (privatePanel) privatePanel.hidden      = false;
   }
 
+  /* Clears the login session state from sessionStorage, hides the
+     welcome bar, and resets the login button to its logged-out state. */
   function logout() {
     sessionStorage.removeItem('loggedIn');
     sessionStorage.removeItem('loginName');
@@ -650,6 +676,8 @@ function initLoginSimulation() {
    Updates the width of the fixed bar at the top of the page
    as the user scrolls — gives a clear sense of reading progress.
    ============================================================ */
+/* INNOVATION 1: Calculates scroll progress as a percentage and updates
+   the width of the fixed progress bar at the top of the page. */
 function initScrollProgressBar() {
   const bar = document.getElementById('scrollProgressBar');
   if (!bar) return;
@@ -667,6 +695,8 @@ function initScrollProgressBar() {
    Uses IntersectionObserver to trigger a smooth fill animation
    only when the skills section enters the viewport.
    ============================================================ */
+/* INNOVATION 2: Observes each skill bar with IntersectionObserver and
+   animates its width from 0% to the target value when it enters the viewport. */
 function initSkillBars() {
   const fills = document.querySelectorAll('.skill-bar-fill');
   if (!fills.length) return;
@@ -690,6 +720,8 @@ function initSkillBars() {
    Appears after the user scrolls 400px and smoothly scrolls
    back to the top of the page when clicked.
    ============================================================ */
+/* INNOVATION 3: Shows a floating back-to-top button after the user
+   scrolls 400px, and smoothly scrolls to the top when clicked. */
 function initBackToTop() {
   const btn = document.getElementById('backToTop');
   if (!btn) return;
