@@ -1,9 +1,9 @@
 /**
  * script.js – Mohammed Alroomi Portfolio
  * SWE 363 | KFUPM | 2026
- * Assignment 3 – Advanced Functionality
+ * Assignment 4 – Final Portfolio
  *
- * Features added in Assignment 3:
+ * Features built across Assignments 1–4:
  *  A. API Integration
  *     1. Inspirational Quotes  — api.quotable.io with adviceslip fallback
  *     2. GitHub Repositories   — api.github.com (lazy-loaded via IntersectionObserver)
@@ -658,7 +658,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initScrollAnimations();      // Fade-in on scroll
   initContactForm();           // Form validation (multi-step)
 
-  /* ── New features added in Assignment 3 ── */
+  /* ── Features refined and finalized in Assignment 4 ── */
   initProjectSort();           // Sort dropdown — works with filter
   initSkillFilter();           // Skill-level filter — works with category + sort
   initSiteTimer();             // Real-time on-page counter
@@ -667,5 +667,5 @@ document.addEventListener('DOMContentLoaded', () => {
   initGitHubRepos();           // GitHub repos API (lazy-loaded)
 
   console.log('%c Mohammed Alroomi | Portfolio', 'color: #00d4aa; font-size: 14px; font-weight: bold;');
-  console.log('%c Assignment 3 – Advanced Functionality | SWE 363 | KFUPM', 'color: #9090a0;');
+  console.log('%c Assignment 4 – Final Portfolio | SWE 363 | KFUPM', 'color: #9090a0;');
 });
